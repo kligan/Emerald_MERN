@@ -1,70 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
-import Loggedin from './components/Loggedin';
-import {useState,useContext} from "react";
+import Articles from './components/Articles';
 import ProtectedRoute from './components/Protected_routes';
-import Home from './components/Home';
+import React, {useContext} from "react";
 import {AuthenticationContext} from "./components/Authentication";
-import Button from "@material-ui/core/Button";
+import Home from './components/HomePage/Home';
+import Login from "./components/HomePage/Login";
+import Content from "./components/HomePage/Content";
 import {
     BrowserRouter as Router,
     Switch,
     Route,
-    Link
 } from "react-router-dom";
 
-function About() {
-    return <h2>About</h2>;
-}
-
 function App() {
-const {isUserLoggedIn, login, logout} = useContext(AuthenticationContext)
+    useContext(AuthenticationContext);
   return (
       <Router>
-          <div>
-            <div className="LoginBtn">
-              {
-                  (isUserLoggedIn ) ? (
-                      <Button variant="contained" color="primary" onClick={()=>{
-                          logout()
-                      }}> Log Out</Button>
-                  ):(
-                      <Button variant="contained" color="primary" onClick={() =>{
-                          login()
-                      }}>Log In</Button>
-                  )
-              }
-            </div>
-              <div className="LoginBtn">
-              <nav>
-                  <ul>
-                      <li>
-                          <Link to="/contents">Contents</Link>
-                          <h6>Protected Route: Press login to gain access</h6>
-                      </li>
-                  </ul>
-              </nav>
-              </div>
+          <Login />
+         <Content />
               <Switch>
-                  <Route path="/about">
-                      <About />
-                  </Route>
-
                   <Route exact={true} path="/contents"
                          render={() => {
                              if(localStorage.getItem("login") === null) return <Home/>
-                             else  return <Loggedin />
+                             else return <Articles />
                       }}
                   />
-                  <ProtectedRoute exact path="/contents" component={Loggedin} />
+                  <ProtectedRoute exact path="/contents" component={Articles} />
                   <Route path="/">
                       <Home/>
                   </Route>
               </Switch>
-          </div>
       </Router>
-
-
   );
 }
 

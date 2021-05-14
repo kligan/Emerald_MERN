@@ -1,6 +1,6 @@
 import React from 'react';
 import {render,fireEvent, screen} from "@testing-library/react";
-import Home from "../components/Home";
+import Home from "../components/HomePage/Home";
 import ReactDOM from 'react-dom'
 
 // test for Home component
